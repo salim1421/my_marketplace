@@ -1,0 +1,7 @@
+.venv
+.env
+
+
+SECRET_KEY=
+ALLOW_HOST=
+DEBUG=

@@ -1,0 +1,99 @@
+.body{
+
+}
+.product-body{
+    border: 1px solid gray;
+    width: 200px;
+    display: grid;
+    grid-template-columns: 1fr;
+    cursor: pointer;
+}
+.product-body:hover{
+    box-shadow: 5px 5px 5px;
+}
+.product-image{
+    width: 200px;
+}
+.product-main{
+    display: inline-block;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+.product-name{
+    font-family: Roboto;
+    padding-left: 5px;
+}
+.product-cat{
+    font-family: Roboto;
+    padding-left: 5px;
+    margin: 0px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.product-price{
+    margin-top: 2px;
+    font-family: Roboto;
+    padding-left: 5px;
+    font-weight: bold;
+}
+.product-store{
+    font-family: Roboto;
+    padding-left: 5px;
+}
+.detail{
+    text-align: center;
+    padding-bottom: 5px;
+    font-size: 25px;
+    font-family: Arial;
+    background-color:  goldenrod;
+    
+}
+.detail-container{
+    margin-top: 100px;
+    text-align: center;
+}
+.detail-body{
+    border: 1px solid gray;
+    text-align: center;
+    display: inline-block;
+}
+.detail-image{
+    width: 300px;
+}
+.detail-store{
+    margin-bottom: 10px;
+}
+.buy{
+    text-align: center;
+    padding-bottom: 10px;
+}
+.review-body{
+    margin: 100px;
+}
+.review-form{
+    list-style: square;
+}
+.review-image{
+    width: 50px;
+    border: 1px solid gray;
+}
+.store-body{
+    margin: 100px;
+    border: 1px solid grey;
+}
+.store-info{
+    margin-left: 20px;
+}
+.categories-body{
+    margin: 150px;
+}
+.categories-name{
+    margin-bottom: 20px;
+}
+.category-body{
+    margin: 150px;
+}
+.store-detail{
+    margin-top: 50px;
+    text-align: center;
+}

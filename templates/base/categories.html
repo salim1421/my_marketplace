@@ -1,0 +1,20 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="categories-body">
+    <div class="categories-name">
+        <h2>
+            {{ categories.name }}
+        </h2>
+    </div>
+    
+    {% for category in categories.subcategory_set.all %}
+        <a class="btn btn-success" href="{% url 'subcategory' category.id %}">{{ category.subcategory_name }}</a>
+    {% endfor %}
+</div>
+
+    
+
+{% endblock content %}
+    

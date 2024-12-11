@@ -1,0 +1,83 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+    
+<div class="detail-container">
+    <div class="detail-body">
+        <img class="detail-image" src="{{ object.image.url }}">
+        <div class="product-name">
+            {{ object.name }}
+        </div>
+        <div class="product-price">
+            <strong>Price</strong>: ${{ object.price }}
+        </div>
+        <p class="product-cat">
+        <strong>Category</strong>: {{ object.category }}
+        <strong>Subcategory</strong>: {{ object.subcategory }}
+
+        </p>
+            
+        <div class="detail-store">
+            <strong>Store</strong>: {{ object.store }}    
+        </div>
+        <div class="buy">
+            <a class="btn btn-success" href="#">Add To Cart</a>
+            <a class="btn btn-secondary" href="#"> Buy Now </a>
+        </div>
+        
+        
+    </div>
+    
+</div>
+<br>
+<br>
+
+<div class="review-body">
+    <h2>
+        Reviews
+    </h2>
+    
+    
+    {% if user.is_authenticated %}
+        <form class="review-form" action="{% url 'product-detail' object.id %}" method="post">
+            {% csrf_token %}
+            {{ review_form }}
+            <button class="btn btn-secondary" type="submit">Make A Review</button>
+        </form>
+    {% endif %}
+
+
+    <br>
+    <br>
+    <hr>
+    {% if reviews %}
+        
+        {% for review in reviews %}
+            <strong>
+                {{ review.name }}
+                {{ review.date_added }}
+            </strong>
+            <div>
+                {{ review.body }}
+            </div>
+                
+                <div>
+                    {% if image %}
+                        <img class="review-image" src="{{ review.image.url }}" >
+                    {% endif %}    
+                </div>
+    
+        {% endfor %}
+    {% else %}
+        No Reviews Yet!
+            
+    {% endif %}
+</div>
+
+<br>
+<br>
+    
+
+{% endblock content %}
+    

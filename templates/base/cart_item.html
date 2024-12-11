@@ -1,0 +1,14 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+{% for product in cart_item %}
+    {{ product.name }}
+
+{% endfor %}
+    {{ total_price }}
+
+{% endblock content %}
+    

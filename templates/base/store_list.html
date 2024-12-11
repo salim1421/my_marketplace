@@ -1,0 +1,25 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <div class="store-body">
+        <h2>
+            Our Stores
+        </h2>
+        <br>
+        <br>
+        <div class="store-info">
+            {% for store in stores %}
+                <a href="{% url 'store' store.id %}"> {{ store.name }} </a>
+            {% endfor %}
+            <br>
+            <br>
+        </div>
+        
+    </div>
+    
+        
+
+{% endblock content %}
+    

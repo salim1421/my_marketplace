@@ -1,0 +1,48 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="store-detail">    
+    <h2>
+        Store Information
+    </h2>
+
+    <strong>Name</strong>: {{ object.name }}
+        <br>
+    <strong>Address</strong>: {{ object.address }}
+</div>
+<br>
+<hr>
+
+<div style="text-align: center;">
+    <strong><h2>Store Products</h2></strong>
+</div>
+{% for product in stores %}
+<div class="product-main">
+    <div class="product-body">
+        <img width="100px" src="{{ product.image.url }}" class="product-image">
+        <div class="product-name">
+            {{ product.name}}
+        </div>
+        <div class="product-price">
+            Price: ${{ product.price }}    
+        </div>
+        
+        <p class="product-cat">
+        <strong>Category</strong>: <a href="{% url 'category' product.category.id %}">{{ product.category }}</a>
+        <strong>Subcategory</strong>: <a href="{% url 'subcategory' product.subcategory.id %}">{{ product.subcategory}}</a>
+        </p>
+        <div class="product-store">
+            {% if store %}
+                <a href="{% url 'store' product.store.id %}"></a>{{ product.store }}
+            {% endif %}
+        </div>
+        <a class="detail" href="{% url 'product-detail' product.id %}">Details</a>
+    </div>
+    
+</div>
+
+{% endfor %}
+
+{% endblock content %}
+    
