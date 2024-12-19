@@ -42,7 +42,8 @@ class Products(models.Model):
 class CartItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     products = models.ForeignKey(Products, on_delete=models.PROTECT)
-    quantity = models.IntegerField(default=0)
+    quantity = models.IntegerField(default=1)
+    ordered = models.BooleanField(default=False)
     date_ordered = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -51,9 +52,11 @@ class CartItem(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
-    products = models.ManyToManyField(Products)
-    cart_item = models.ForeignKey(CartItem, on_delete=models.PROTECT)
+    cart_item = models.ManyToManyField(CartItem)
+    date_ordered = models.DateTimeField(default=timezone.now)
+    ordered_on = models.DateTimeField()
     ordered = models.BooleanField(default=False)
+    
 
     def __str__(self):
         return f"{self.user}'s Orders"
@@ -68,4 +71,16 @@ class Review(models.Model):
 
     def __str__(self):
         return f"{self.name}'s review on {self.product}"
+    
+
+class CheckOut(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    country = ''
+    street_address = models.CharField(max_length=100)
+    zip_code = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.user.username}'s Checkout Details"
+    
+    
 

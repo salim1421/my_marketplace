@@ -1,5 +1,9 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DeleteView, DetailView
+from django.contrib import messages
+from django.utils import timezone
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 
 from .forms import ReviewForm
@@ -86,23 +90,132 @@ def category_list(request):
     return render(request, 'base/category.html', context)
 
 
-def cartView(request):
+def add_to_cart(request, pk):
+    product = get_object_or_404(Products, id=pk)
+    cart_item, created = CartItem.objects.get_or_create(
+        user=request.user,
+        products=product,
+        ordered=False 
+    )
+    order_qs = Order.objects.filter(
+        user=request.user, 
+        ordered=False
+    )
+
+    if order_qs.exists():
+        order = order_qs[0]
+        if order.cart_item.filter(products__pk=product.pk):
+            cart_item.quantity += 1
+            cart_item.save()
+            messages.success(request, 'Item Quantity Updated')
+        else:
+            order.cart_item.add(cart_item)
+            order.save()
+            messages.info(request, 'Product Added To Your Cart')
+            return redirect('product-detail', pk=pk)
+        
+    else:
+        time = timezone.now()
+        order = Order.objects.create(user=request.user, ordered_on=time)
+        order.cart_item.add(cart_item)
+        order.save()
+        messages.success(request, 'Item Order Has been Added Successfully')
+
+    return HttpResponseRedirect(reverse('product-detail', args=[str(pk)]))
+
+
+def reduce_from_cart(request, pk):
+    product = get_object_or_404(Products, pk=pk)
+    cart_item, created = CartItem.objects.get_or_create(
+        user=request.user,
+        products=product,
+        ordered=False
+    )
+    order_qs = Order.objects.filter(
+        user=request.user,
+        ordered=False
+    )
+
+    if order_qs.exists():
+        order = order_qs[0]
+        if order.cart_item.filter(products__pk=product.pk).exists():
+            if cart_item.quantity > 1:
+                cart_item.quantity -= 1
+                cart_item.save()
+            messages.info(request, 'Item Quantity Updated')
+            return redirect('cart')
+        else:
+            messages.info(request, 'Item Quantity Removed')
+            return redirect('cart')
+        
+    else:
+        messages.info(request, 'You Do Not Have An Order')
+    return redirect('cart')
+
+
+def add_cart(request, pk):
+    product = get_object_or_404(Products, pk=pk)
+    cart_item, created = CartItem.objects.get_or_create(
+        user=request.user,
+        products=product,
+        ordered=False
+    )
+    order_qs = Order.objects.filter(
+        user=request.user,
+        ordered=False
+    )
+    if order_qs.exists():
+        order = order_qs[0]
+        if order.cart_item.filter(products__pk=product.pk).exists():
+            cart_item.quantity += 1
+            cart_item.save()
+            messages.info(request, 'Item Quantity Added')
+        return redirect('cart')
+
+
+def cartItemList(request):
     cart_item = CartItem.objects.filter(
-        user=request.user
+        user=request.user,
+        ordered=False
     )
     total_price = sum(
-        item.product.price * item.quantity for item in cart_item
-        )
+        item.products.price * item.quantity for item in cart_item
+    )
     context = {
-        cart_item: 'cart_item', total_price:'total_price'
+        'cart_item':cart_item,
+        'total_price':total_price
     }
+    
     return render(request, 'base/cart_item.html', context)
 
 
-def add_to_cart(request, product_id):
-    pass
+def remove_from_cart(request, pk):
+    product = get_object_or_404(Products, pk=pk)
+    cart_item, created = CartItem.objects.get_or_create(
+        user=request.user,
+        products=product,
+        ordered=False
+    )
+    order_qs = Order.objects.filter(
+        user=request.user,
+        ordered=False
+    )
+    if order_qs.exists():
+        order = order_qs[0]
+        if order.cart_item.filter(products__pk=product.pk).exists():
+            cart_item = CartItem.objects.filter(
+                user=request.user,
+                ordered=False,
+                products=product
+            )
+            cart_item.delete()
+            messages.info(request, 'Item Deleted From Your Cart')
+            return redirect('cart')
+        else:
+            messages.info(request, 'Item Does Not Exist In Your Cart')
+            return redirect('cart')
+    else:
+        messages.info(request, 'You Do Not Have An Order')
+    return redirect('cart')
 
-
-def remove_from_cart(request, product_id):
-    pass
 

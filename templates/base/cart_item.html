@@ -4,11 +4,48 @@
 {% block content %}
 
 
-{% for product in cart_item %}
-    {{ product.name }}
-
-{% endfor %}
-    {{ total_price }}
+<div class="cart-table">
+    <h2>
+        Your Cart
+    </h2>
+    <div
+        class="table-responsive"
+    >
+        <table
+            class="table table-primary"
+        >
+            <thead>
+                <tr>
+                    <th scope="col"> Name</th>
+                    <th scope="col"> Price </th>
+                    <th scope="col"> Quantity </th>
+                    <th scope="col">  </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_item %}
+                    <tr class="">
+                        <td scope="row"> {{ item.products.name }} </td>
+                        <td> {{ item.products.price }} </td>
+                        <td>
+                            <a class="btn" href="{% url 'add-cart' item.products.id %}">&plus;</a> 
+                            {{ item.quantity }} 
+                            <a class="btn" href="{% url 'reduce-cart' item.products.id %}">&minus;</a>
+                        </td>
+                        <td> <a class="btn btn-danger" href="{% url 'cart-delete' item.products.id %}">Delete</a> </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <hr>
+    <div>
+        Total Amount: ${{ total_price }}
+    </div>
+    
+</div>
+    
+    
 
 {% endblock content %}
     

@@ -22,7 +22,7 @@
             <strong>Store</strong>: {{ object.store }}    
         </div>
         <div class="buy">
-            <a class="btn btn-success" href="#">Add To Cart</a>
+            <a class="btn btn-success" href="{% url 'add-to-cart' object.pk %}">Add To Cart</a>
             <a class="btn btn-secondary" href="#"> Buy Now </a>
         </div>
         

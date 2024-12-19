@@ -9,3 +9,7 @@ class ReviewForm(forms.ModelForm):
             'image',
             'body'
         ]
+
+
+class CheckoutForm(forms.Form):
+    pass

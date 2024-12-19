@@ -3,8 +3,10 @@ from .views import (
     ProductDetailView, ProductListView,
     StoreListView, StoreView,
     SubCategoryView, sub_categoryList,
-    category_list, cartView,
-    add_to_cart, remove_from_cart
+    category_list, cartItemList,
+    add_to_cart, reduce_from_cart,
+    add_cart, remove_from_cart
+
 )
 
 
@@ -16,7 +18,9 @@ urlpatterns = [
     path('category/<category_id>', sub_categoryList, name='category'),
     path('subcategory/<str:pk>', SubCategoryView.as_view(), name='subcategory'),
     path('categories', category_list, name='categories'),
-    path('cart/items', cartView, name='cart'),
-    path('add/to/cart/<product_id>', add_to_cart, name='add-to-cart'),
-    path('remove/from/cart/<product_id>', remove_from_cart, name='remove-from-cart')
+    path('cart/items', cartItemList, name='cart'),
+    path('add/to/cart/<str:pk>', add_to_cart, name='add-to-cart'),
+    path('add/in/cart/<str:pk>', add_cart, name='add-cart'),
+    path('reduce/from/cart/<str:pk>', reduce_from_cart, name='reduce-cart'),
+    path('cart/item/delete/<str:pk>', remove_from_cart, name='cart-delete'),
 ]
