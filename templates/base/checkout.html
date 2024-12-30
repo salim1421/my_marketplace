@@ -1,0 +1,120 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+<main >
+    <div class="container wow fadeIn">
+
+      <!-- Heading -->
+      <h2 class="my-5 h2 text-center">Checkout form</h2>
+
+      <!--Grid row-->
+      <div class="row">
+
+        <!--Grid column-->
+        <div class="col-md-8 mb-4">
+
+          <!--Card-->
+          <div class="card">
+
+            <!--Card content-->
+            <form method="POST" class="card-body">
+            {% csrf_token %}
+              <!--address-->
+              <div class="md-form mb-5">
+                {{ form.address }}
+                <label for="address" class="">Address</label>
+              </div>
+
+
+              <!--Grid row-->
+              <div class="row">
+
+                <!--Grid column-->
+                <div class="col-lg-4 col-md-12 mb-4">
+                  <label for="country">Country</label>
+                  {{ form.country }}
+                </div>
+                <!--Grid column-->
+
+                <!--Grid column-->
+                <div class="col-lg-4 col-md-6 mb-4">
+
+                  <label for="zip">Zip</label>
+                  {{ form.zip_code }}
+                  <div class="invalid-feedback">
+                    Zip code required.
+                  </div>
+
+                </div>
+                <!--Grid column-->
+
+              </div>
+              <!--Grid row-->
+
+              <hr>
+
+              <div class="d-block my-3">
+                {% for value, name in form.fields.payment.choices %}
+                <div class="custom-control custom-radio">
+                  <input id="{{ name }}" name="payment" value="{{ value }}" type="radio" class="custom-control-input" required>
+                  <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
+                </div>
+                {% endfor %}
+              </div>
+             
+              <hr class="mb-4">
+              <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+
+            </form>
+
+          </div>
+          <!--/.Card-->
+
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-md-4 mb-4">
+
+          <!-- Heading -->
+          <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-muted">Your cart ({{ order.cart_item.count }})</span>
+            <span class="badge badge-secondary badge-pill">3</span>
+          </h4>
+
+          <!-- Cart -->
+          <ul class="list-group mb-3 z-depth-1">
+            {% for cart_item in order.cart_item.all %}
+              <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <h6>{{ forloop.counter }}</h6>
+                <div>
+                  <h6 class="my-0"> {{ cart_item.products.name }} </h6>
+                  <small class="text-muted"> {{ cart_item.quantity }} </small>
+                </div>
+                <span class="text-muted"> {{ cart_item.products.price }} </span>  
+                                
+              </li>
+              {% endfor %}
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Total (USD)</span>
+              <strong>{{ order.get_final_price }}</strong>
+            </li>
+          </ul>
+          <!-- Cart -->
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+
+    </div>
+  </main>
+  <!--Main layout-->
+    
+
+{% endblock content %}
+    

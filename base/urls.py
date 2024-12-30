@@ -5,7 +5,9 @@ from .views import (
     SubCategoryView, sub_categoryList,
     category_list, cartItemList,
     add_to_cart, reduce_from_cart,
-    add_cart, remove_from_cart
+    add_cart, remove_from_cart,
+    CheckoutView, process_payment,
+    PaymentView,
 
 )
 
@@ -23,4 +25,7 @@ urlpatterns = [
     path('add/in/cart/<str:pk>', add_cart, name='add-cart'),
     path('reduce/from/cart/<str:pk>', reduce_from_cart, name='reduce-cart'),
     path('cart/item/delete/<str:pk>', remove_from_cart, name='cart-delete'),
+    path('checkout/', CheckoutView.as_view(), name='checkout'),
+    path('payment/<payment>', PaymentView.as_view(), name='payment'),
+    path('process/payment', process_payment, name='p-process'),
 ]

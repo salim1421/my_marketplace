@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django_countries.fields import CountryField
 
 
 class Store(models.Model):
@@ -48,6 +49,9 @@ class CartItem(models.Model):
 
     def __str__(self):
         return f"{self.products}'s {self.quantity}"
+    
+    def get_total_price(self):
+        return self.products.price * self.quantity
 
 
 class Order(models.Model):
@@ -56,10 +60,17 @@ class Order(models.Model):
     date_ordered = models.DateTimeField(default=timezone.now)
     ordered_on = models.DateTimeField()
     ordered = models.BooleanField(default=False)
-    
+    payment = models.ForeignKey('Payment', on_delete=models.CASCADE, null=True)
+    checkout = models.ForeignKey('CheckOut', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return f"{self.user}'s Orders"
+    
+    def get_final_price(self):
+        total = 0
+        for items in self.cart_item.all():
+            total += items.get_total_price()
+        return total
 
 
 class Review(models.Model):
@@ -75,12 +86,19 @@ class Review(models.Model):
 
 class CheckOut(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    country = ''
-    street_address = models.CharField(max_length=100)
+    country = CountryField(multiple=False)
+    address = models.CharField(max_length=100)
     zip_code = models.CharField(max_length=100)
 
     def __str__(self):
         return f"{self.user.username}'s Checkout Details"
     
     
-
+class Payment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    stripe_id = models.CharField(max_length=299)
+    amount = models.CharField(max_length=299)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.user
