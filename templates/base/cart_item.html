@@ -23,7 +23,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for item in cart_item %}
+                {% for item in order.cart_item.all %}
                     <tr class="">
                         <td scope="row"> {{ item.products.name }} </td>
                         <td> {{ item.products.price }} </td>
@@ -34,15 +34,21 @@
                         </td>
                         <td> <a class="btn btn-danger" href="{% url 'cart-delete' item.products.id %}">Delete</a> </td>
                     </tr>
+
+                {% empty %}
+                    You Don't Have An Order <a class="btn btn-secondary" href="{% url 'product-list' %}">Continue Shopping</a>
                 {% endfor %}
             </tbody>
         </table>
     </div>
     <hr>
+    
+    {% if order.get_final_price %}
     <div>
         Total Amount: ${{ total_price }} <a class="btn btn-success" href="{% url 'checkout' %}">Checkout</a>
-    </div>
-    
+    </div>    
+    {% endif %}
+          
 </div>
     
     

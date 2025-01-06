@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'users',
     'ecommerce_api',
     'django_countries',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -137,3 +138,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STRIPE_SECRET_KEY= config('STRIPE_SECRET_KEY')
 STRIPE_PUBLIC_KEY= config('STRIPE_PUBLIC_KEY')
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = '/'

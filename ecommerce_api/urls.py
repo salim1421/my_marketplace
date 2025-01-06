@@ -1,6 +1,50 @@
 from django.urls import path
-from .views import *
+from .views import (
+    PaymentCreateView, PaymentDeleteView,
+    PaymentDetailView, PaymentListView,
+    CartItemCreateView, CartItemDetailView,
+    CartItemListView, CartItemUpdateView,
+    CategoryCreateView, CategoryDetailView,
+    CategoryUpdateView, CategoryListView,
+    CheckoutDetailView, CheckoutListView,
+    CheckoutUpdateView, ProducListView,
+    ProductCreateView, ProductDetailView,
+    ProductUpdateDeleteView, SubcategoryCreateView,
+    SubcategoryListView,
+    SubcategoryUpdateView, StoreCreateView,
+    StoreDetailView, StoreListView,
+    OrderCreateView, OrderListView,
+    OrderDetailView, OrderUpdateView
+)
 
 urlpatterns = [
-    
+    path('', ProducListView.as_view()),
+    path('product/detail/<str:pk>', ProductDetailView.as_view()),
+    path('product/create', ProductCreateView.as_view()),
+    path('product/update/<str:pk>', ProductUpdateDeleteView.as_view()),
+    path('cart/item', CartItemListView.as_view()),
+    path('cart/item/detail/<str:pk>', CartItemDetailView.as_view()),
+    path('cart/item/update/<str:pk>', CartItemUpdateView.as_view()),
+    path('cart/item/create', CategoryCreateView.as_view()),
+    path('subcategory', SubcategoryListView.as_view()),
+    path('subcategory/create', SubcategoryCreateView.as_view()),
+    path('subcategory/update/<str:pk>', SubcategoryUpdateView.as_view()),
+    path('category', CategoryListView.as_view()),
+    path('category/create', CategoryCreateView.as_view()),
+    path('category/detail/<str:pk>', CategoryDetailView.as_view()),
+    path('category/update/<str:pk>', CategoryUpdateView.as_view()),
+    path('order', OrderListView.as_view()),
+    path('order/create', OrderCreateView.as_view()),
+    path('order/update/<str:pk>', OrderUpdateView.as_view()),
+    path('order/detail/<str:pk>', OrderDetailView.as_view()),
+    path('checkout', CheckoutListView.as_view()),
+    path('checkout/detail/<str:pk>', CheckoutDetailView.as_view()),
+    path('checkout/update/<str:pk>', CategoryUpdateView.as_view()),
+    path('payment', PaymentListView.as_view()),
+    path('payment/create', PaymentCreateView.as_view()),
+    path('payment/detail/<str:pk>', PaymentDetailView.as_view()),
+    path('payment/delete/<str:pk>', PaymentDeleteView.as_view()),
+    path('store', StoreListView.as_view()),
+    path('store/detail/<str:pk>', StoreDetailView.as_view()),
+    path('store/create', StoreCreateView.as_view()),
 ]

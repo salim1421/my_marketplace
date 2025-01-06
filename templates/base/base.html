@@ -18,13 +18,16 @@
             crossorigin="anonymous"
         />
         <link rel="stylesheet" href="{% static 'css/main.css' %}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
     </head>
 
     <body>
         <header>
             <nav class="navbar navbar-expand-lg bg-light">
                 <div class="container-fluid">
-                  <a class="navbar-brand" href="#">Shopify</a>
+                  <a class="navbar-brand" href="{% url 'product-list' %}">Shopify</a>
                   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                   </button>
@@ -34,13 +37,15 @@
                         <a class="nav-link active" aria-current="page" href="{% url 'product-list' %}">Home</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="{% url 'cart' %}">Cart</a>
-                      </li>
-                      <li class="nav-item">
                         <a class="nav-link" href="{% url 'store-list' %}">Stores</a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" href="{% url 'categories' %}">Category</a>
+                      </li>
+                      
+                      {% if user.is_authenticated %}
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'cart' %}">Cart</a>
                       </li>
                       <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -48,8 +53,21 @@
                         </a>
                         <ul class="dropdown-menu">
                           <li><a class="dropdown-item" href="#">Action</a></li>
+                          <li><a class="dropdown-item" href="{% url 'user-settings' user.id %}">User Settings</a></li>
                         </ul>
                       </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                      </li>
+                      {% else %}
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">Register</a>
+                      </li>
+                      {% endif %}
+                      
                     </ul>
                   </div>
                 </div>
